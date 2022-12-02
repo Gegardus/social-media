@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Posts</h1>
+
+<!--
+ <div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
+</div> 
+<%= link_to "New post", new_post_path %>
+-->
+
+<!-- link to create post that opens on the index page -->
+<%= turbo_frame_tag "create_post_form" do %>
+  <%= link_to 'Create new post', new_post_path, class: 'btn btn-dark', data: { turbo_frame: 'create_post_form' } %>
+<% end %>
+
+<div id="posts">
+<%= turbo_stream_from :posts %>
+<!-- permanently opened create post on the index page -->
+<%= turbo_frame_tag :post_form do %>
+  <%= render 'posts/form', post: @post %>
+<% end %>
+<%= turbo_frame_tag :posts do %>
+  <%= render @posts %>
+<% end %>
+</div>
+
